@@ -2,7 +2,12 @@
 \input{meta}
 
 % Package imports go here.
-\usepackage[inline]{todonotes}
+% \usepackage{blindtext}
+% \usepackage[inline]{todonotes}
+
+
+
+\usepackage[colorinlistoftodos]{todonotes}
 \let\Oldtodo\todo
 \renewcommand{\todo}[1]{\Oldtodo[inline]{#1}}
 \newcommand{\eric}[2][]{\Oldtodo[inline,color=cyan, #1]{Eric: #2}}
