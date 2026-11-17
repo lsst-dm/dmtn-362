@@ -1,1 +1,83 @@
-\section{DECam Templates}
+\section{DECam Templates}\label{sec:inception}
+ 
+\subsection{Motivation}
+ 
+Rubin alert production requires a template image at every sky position in every band in which alerts are to be distributed. 
+The baseline plan for the Early Science Program was to build these templates incrementally from LSSTCam data, first from commissioning observations, and then from images accumulated during the first year of the survey \citep{DMTN-107,RTN-011}. 
+As of Nov. 2026, commissioning observations processed as part of Data Preview 2 have comprised the bulk of the templates deployed to alert production.
+Survey-strategy simulations indicate that a first year affected by strong El Ni\~no weather, hardware downtime, and ongoing engineering activities, would not quickly deliver templates across the WFD area.
+
+Two mitigations for this shortfall have been considered within the survey strategy team: a dedicated high-priority \textit{template tier} in the scheduler that targets template-quality visits, and the use of shorter (20\,s) exposures to accumulate visits faster. Both carry costs to the nominal survey footprint, band balance, data-processing, and cadence. A third, complementary option, is to build templates from archival data that already exists.
+
+
+Scientifically, the scheduling of the planned IR1 LIGO-Virgo-Kagra during the first year of the survey motivated us to consider all available options to enable templates were available over a wide survey area.
+The LIGO--Virgo--KAGRA (LVK) Intermediate Run~1 (IR1), a planned six-month observing run with both LIGO detectors online and Virgo and KAGRA joining as available, is currently expected to begin in mid-January 2027. With sensitivity comparable to the fourth observing run, IR1 should deliver compact-binary detections every few days, a subset of which may involve neutron stars and produce kilonovae \citep{igwn_observing_plans_2026}. This makes IR1 a rare opportunity for Rubin Observatory: its wide field of view and depth are well matched to the large localization regions of gravitational-wave events, and the faint, fast-fading optical counterparts are precisely the sources that a deep, multi-band survey telescope is best placed to find and characterize. With detection and characterization, high-impact scientific opportunities in cosmology, transient astrophysics, and nuclear physics are enabled during coincident operations.
+
+Realizing that potential, however, depends on difference imaging, and difference imaging requires templates. LSSTCam templates will cover only a small fraction of the sky when IR1 begins, so over most candidate localization regions a counterpart search would lack the reference images needed to detect new sources in real time. Templates built from archival DECam data fill this gap across much of the southern sky in $griz$, and they matter for the science as well as the coverage: the $g$-band templates in particular enable the color information needed to discriminate kilonovae from other fast transients. Having vetted DECam templates deployed in Rubin Alert Production before IR1 begins is therefore essential to turning Rubin's ToO capability into alerts that the gravitational-wave community can act on.
+ 
+The Dark Energy Camera (DECam) on the Blanco telescope has imaged a large fraction of the southern sky in multiple bands through public surveys including DES, DELVE and other surveys \citep{DES,DELVE}. Its filters are similar (but not identical) to the Rubin $g$, $r$, $i$ and $z$ bands, and its pixel scale (0.263\,arcsec) is within a factor of 1.5 of LSSTCam's (0.2\,arcsec). Archival DECam exposures offer a route to templates that does not depend on the LSSTCam image accumulation described above.
+ 
+Several limitations shape how these templates can be used.
+\begin{itemize}
+  \item \textbf{Alert production only.} DECam-based templates are a stopgap for AP. They will not be used for Data Release Production (DRP), which requires complete LSSTCam coverage to enable difference imaging in future data releases.
+  \item \textbf{Band coverage.} The $u$-band system response of DECam differs from Rubin's significantly. This campaign targets $griz$ only.
+  \item \textbf{Epoch and instrument differences.} The archival images are many years older than the Rubin science images, so stars with appreciable proper motion subtract as dipoles. In many ways, this is a good diagnostic for astrometric precision.
+\end{itemize}
+
+Whether to retain or drop the template tier and shorter exposures is a decision for the Survey Cadence Optimization Committee (SCOC) and is outside the scope of this note.
+
+\subsection{Previous Work: Rubin--DECam differencing in COSMOS (spring 2026)}
+ 
+A first end-to-end test was carried out in spring 2026 by members of the AP team. Archival DECam exposures of the COSMOS field already available at the USDF were run through the Science Pipelines using the \texttt{QuickTemplate} pipeline in \texttt{ap\_pipe}, which performs single-frame processing, builds warps, and assembles coadds. The templates used the same \texttt{lsst\_cells\_v2} skymap as the Rubin templates, and the resulting coadds were then differenced against LSSTCam visits taken in early 2026.
+ 
+The outcome was encouraging, but clearly showed work remaining. For a representative visit and detector in $g$ band, all clearly real transients and moving objects that were detected with Rubin--Rubin differencing were also detected at high reliability with the DECam template. However, roughly 20 times as many unfiltered diaSources were produced, and about 4 times as many passed the standard quality and reliability cuts. 
+While there are a variety of reasons to expect a larger number of ``real'' detections in differences with DECam templates (\S \ref{sec:alerts}), the excess diaSources showed strong spatial clustering indicative of problems in the image subtraction.
+This performance was judged unsuitable for production deployment due to the high rate of false positives.
+%The excess was attributed to proper motion between the DECam and Rubin epochs, poorer template seeing, bandpass differences, and an apparent underestimate of the difference-image variance leading to spurious detections on correlated noise. Restricting to a reliability of 0.9 or higher retained most real moving objects and transients, but at the cost of variable star source detection.
+
+This issue was identified as arising from noise correlations introduced during the warping of the DECam template to the Rubin science image, which was exacerbated by the difference in pixel scale between the two cameras.
+By accounting for this difference, the spatial structure in the detected diaSources was greatly reduced. 
+\ian{Review this summary and expand if desired}
+ 
+\subsection{Previous Work: Target-of-Opportunity follow-up}
+ 
+At the same time, the Rubin ToO program faced a closely related problem, as no LSSTCam templates exist over most of the sky. The ToO follow-up of the S251112cm event included a pilot comparison of Rubin--DECam and Rubin--Rubin differencing over a $\sim$30\,deg$^2$ region. Note that for this analysis, the DECam templates that were used for this analysis were coadd level images processed by the DESDM pipeline \citep{Morganson_2018}, which differs from the LSST science pipelines. 
+
+The Rubin-DECam differences produced 5-8 times more \texttt{diaSources} per epoch than the Rubin-Rubin differences, and for that analysis, the Rubin-Rubin differences were judged the cleaner option where a suitable earlier Rubin epoch existed. However, this limited the scope of analyses in this context, as one Rubin visit had to be designated the \textit{template} for the purpose of DIA.
+
+\eric{Comment on challenges of ad-hoc processing motivating AP templates}
+
+% ECB: I think this bears a little more thinking
+%While this ToO image processing campaign was challenging, it elucidated a principle we adopt for this campaign: DECam templates are for locations where LSSTCam templates are not available. Where LSSTCam templates exist, we deploy them to Rubin AP.
+\todo{we should describe why we though reprocessing was important given the prior use of DESDM images}
+ 
+\subsection{Launch of the Wide-Area Campaign}
+
+ 
+The campaign to produce DECam templates for Rubin AP in a wide-area was launched in early August 2026. At kickoff, we devised a prototype pipeline above together with the issues that needed to be settled before wide-area template production could begin:
+\begin{enumerate}
+  \item The \texttt{SPIKE} mask, tuned for Rubin images and somewhat over-aggressive for DECam;
+  \item The reference catalogs used for astrometric and photometric calibration;
+  \item The choice of skymap, in particular whether one matched to the DECam pixel scale would reduce correlated noise, versus the convenience for Prompt Processing of a skymap shared with the Rubin templates;
+  \item Whether the visit-selection algorithm used for deep coadds is the best fit for DECam data;
+  \item The underestimated variance in the DECam-template difference images, which caused spurious detections on correlated noise, and whether to correct the variance calculation or raise the detection threshold.
+\end{enumerate}
+ 
+Following kickoff, we established the pipeline configuration to build on \texttt{QuickTemplate}, and ELAIS-S1 was chosen as the pilot region. 
+ 
+\subsection{From pilot to survey-scale processing}
+ 
+The pilot region was processed at NERSC through autumn 2026 with three template-selection configurations compared using PSF-variation metrics, and on the quality of the resulting difference images. Rubin-DECam difference images made from the pilot templates were judged to be satisfactory, and an independent check against \textit{Gaia} showed that stars with proper motions down to roughly 10\,mas\,yr$^{-1}$ appear as dipoles in the diaSources, with the measured dipole lengths in excellent agreement with the \textit{Gaia} values (see Figure~\ref{fig:gaia_pms}).
+
+With the pilot validated, the campaign moved to sky-area \textit{chunks} processed at NERSC (see Figure~\ref{fig:chunk_schem}), transferred to the USDF, and vetted before any deployment to the embargo repository. The first of these, chunk~0, was produced in early November 2026 and ingested at the USDF on 5~November 2026, and were deemed satisfactory to deploy to Rubin AP on Nov. 10. % The criteria applied to select and curate input images are described in Section~2, the plan for staged deployment in Section~3, and expectations for alert volume and reliability scoring in Section~4.
+
+ 
+\subsection{Guiding Principles}
+ 
+The following principles have guided the campaign from its inception, and several are enforced in the template curation and deployment process.
+\begin{itemize}
+  \item DECam templates serve AP only and are used only where LSST templates do not exist.
+  \item For each tract and band, the official template collection used in real-time processing contains one style of template, Rubin or DECam, never both.
+  \item DECam templates are ingested under a distinct dataset type, \texttt{template\_coadd\_decam}, and processed with a dedicated top-level AP pipeline, so that provenance is unambiguous in the resulting alert products.
+  \item Template production targets the $griz$ bands.
+\end{itemize}

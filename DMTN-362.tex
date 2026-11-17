@@ -2,6 +2,13 @@
 \input{meta}
 
 % Package imports go here.
+\usepackage[inline]{todonotes}
+\let\Oldtodo\todo
+\renewcommand{\todo}[1]{\Oldtodo[inline]{#1}}
+\newcommand{\eric}[2][]{\Oldtodo[inline,color=cyan, #1]{Eric: #2}}
+\newcommand{\ian}[2][]{\Oldtodo[inline,color=green, #1]{Ian: #2}}
+\newcommand{\sean}[2][]{\Oldtodo[inline,color=yellow, #1]{Sean: #2}}
+
 
 % Local commands go here.
 
@@ -33,7 +40,7 @@
 % \setDocCurator{The Curator of this Document}
 
 \setDocAbstract{%
-In this technote, we describe the plan for using archival images from the Dark Energy Camera for image differencing against LSST-Camera images. We discuss the inception of this processing campaign, image selection and curation criteria, the plan for staged deployment, and expectations for alert volume and reliability scoring of Rubin-DECam candidates.
+In this technote, we describe the implementation of a plan for using archival images from the Dark Energy Camera to make template images for image differencing against LSST-Camera images. We discuss the inception of this processing campaign, image selection and curation criteria, the plan for staged deployment, and expectations for the characteristics of Rubin-DECam alerts.
 }
 
 % Change history defined here.
@@ -41,13 +48,15 @@ In this technote, we describe the plan for using archival images from the Dark E
 % Fields: VERSION, DATE, DESCRIPTION, OWNER NAME.
 % See LPM-51 for version number policy.
 \setDocChangeRecord{%
-  \addtohist{1}{YYYY-MM-DD}{Unreleased.}{MacBride}
+  % \addtohist{1}{YYYY-MM-DD}{Unreleased.}{MacBride}
+  \addtohist{1}{2026-11-17}{Revision to \textit{DECam Templates}, \textit{Image Selection}, and \textit{Alert Expectations} chapters.}{MacBride}
 }
 
 
 \begin{document}
 
 % Create the title page.
+
 \maketitle
 % Frequently for a technote we do not want a title page  uncomment this to remove the title page and changelog.
 % use \mkshorttitle to remove the extra pages
@@ -56,10 +65,13 @@ In this technote, we describe the plan for using archival images from the Dark E
 % You can also use the \input command to include several content files.
 
 \input{sections/how_this_happened}
+\newpage
 \input{sections/image_selection}
+\newpage
 \input{sections/deployment_plan}
+\newpage
 \input{sections/alert_expectations}
-
+\newpage
 \appendix
 
 \section{Acknowledgements}
