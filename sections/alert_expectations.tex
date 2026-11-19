@@ -6,14 +6,20 @@ In this section we highlight issues alert users may wish to be aware of.
 
 \subsection{Identifying Alerts with DECam Templates}
 
-Starting in alert schema v11.2, we added several columns to the diaSource table to enable users to recognize when alerts come from difference images generated from DECam templates. 
+Starting in alert schema v11.2, we added several columns to the diaSource table\footnote{See \url{https://sdm-schemas.lsst.io/apdb.html\#DiaSource}.} to enable users to recognize when alerts come from difference images generated from DECam templates. 
 They are:
 
-\eric{summarize}
+\begin{enumerate}
+\item \texttt{mixedInstruments}: True if the science and template images come from different instruments.
+\item \texttt{templateInstrument}: A string naming the template source.
+\item \texttt{templateMjdMin}: The minimum MJD of the template input images.
+\item \texttt{templateMjdMean}: Coadd-weighted average MJD of the template input images.
+\item \texttt{templateMjdMax}: The maximum MJD of the template input images.
+\item \texttt{templateVersion}: An integer indicating the template version.
+\end{enumerate}
 
-\subsection{Alert Rates}
-
-\todo{summarize pilot}
+%\subsection{Alert Rates}
+%\todo{summarize pilot}
 
 \subsection{Expected Origins of Additional DiaSources}
 
@@ -26,7 +32,6 @@ We note several cases where Rubin$-$DECam will generate more diaSources than Rub
 Sources with extreme colors may appear as diaSources due to differences in the net filter throughput.
 Absent other variability, these sources will have constant difference image flux and and be filtered using timeseries features.
 
-\todo{would be nice to make a plot or so here showing what counts as extreme}
 
 \subsection{Stellar Proper Motion}
 
@@ -48,9 +53,6 @@ We find that many new dipoles detected in Rubin-DECam difference images, includi
 Given the longer temporal baseline, slow-varying sources such as AGN are more likely to appear as significant difference image sources with DECam templates.
 This corresponds to real astrophysical variation.
 
-\subsection{Other Artifacts and Mismatches}
+%\subsection{Other Artifacts and Mismatches}
 
-
-
-
-\subsection{Real-Bogus Performance}
+%\subsection{Real-Bogus Performance}
