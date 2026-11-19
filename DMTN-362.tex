@@ -7,12 +7,12 @@
 \usepackage{booktabs}
 
 
-\usepackage[colorinlistoftodos]{todonotes}
-\let\Oldtodo\todo
-\renewcommand{\todo}[1]{\Oldtodo[inline]{#1}}
-\newcommand{\eric}[2][]{\Oldtodo[inline,color=cyan, #1]{Eric: #2}}
-\newcommand{\ian}[2][]{\Oldtodo[inline,color=green, #1]{Ian: #2}}
-\newcommand{\sean}[2][]{\Oldtodo[inline,color=yellow, #1]{Sean: #2}}
+% \usepackage[colorinlistoftodos]{todonotes}
+% \let\Oldtodo\todo
+% \renewcommand{\todo}[1]{\Oldtodo[inline]{#1}}
+% \newcommand{\eric}[2][]{\Oldtodo[inline,color=cyan, #1]{Eric: #2}}
+% \newcommand{\ian}[2][]{\Oldtodo[inline,color=green, #1]{Ian: #2}}
+% \newcommand{\sean}[2][]{\Oldtodo[inline,color=yellow, #1]{Sean: #2}}
 
 
 % Local commands go here.
@@ -55,6 +55,7 @@ In this technote, we describe the implementation of a plan for using archival im
 % See LPM-51 for version number policy.
 \setDocChangeRecord{%
   % \addtohist{1}{YYYY-MM-DD}{Unreleased.}{MacBride}
+  \addtohist{2}{2026-11-19}{Updates to all sections ahead of community announcement.}{MacBride, Bellm}
   \addtohist{1}{2026-11-17}{Revision to \textit{DECam Templates}, \textit{Image Selection}, and \textit{Alert Expectations} chapters.}{MacBride}
 }
 
@@ -71,11 +72,8 @@ In this technote, we describe the implementation of a plan for using archival im
 % You can also use the \input command to include several content files.
 
 \input{sections/how_this_happened}
-\newpage
 \input{sections/image_selection}
-\newpage
 \input{sections/deployment_plan}
-\newpage
 \input{sections/alert_expectations}
 \newpage
 \appendix

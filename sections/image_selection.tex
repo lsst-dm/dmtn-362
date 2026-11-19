@@ -13,7 +13,7 @@ This section describes how the input exposures were chosen. In brief, the parent
 The campaign adopted the exposure list used by DELVE to generate its DR3 catalog-level coadds. This is a different product from the DELVE image coadds released previously using the DESDM pipeline.
 The input list is combined with DELVE's DECam exclude list, which compiles several classes of artifact and problem exposure into a single file. Some entries are visits or CCDs that should always be excluded, such as those affected by tracking problems. Others, notably CCDs with prominent optical ghosts, may reasonably be included or excluded depending on the use. In the ELAIS-S1 pilot, for example, two visits in which more than 30 CCDs were ghosted were dropped by hand, and the chunk production used the explicit visit-detector combinations provided by the exclusion list. The input visits per band are shown in Figure~\ref{fig:delve_vis_nomask}.
 
-\begin{figure}
+\begin{figure}[b!]
     \centering
     \includegraphics[width=0.99\linewidth]{figures/DELVE_vis_nomask.png}
     \caption{Input visits from DELVE DR3 shown per band, with the WFD northern declination limit shown in dashed red line.}

@@ -1,10 +1,25 @@
 \section{Deployment Plan}\label{sec:deployment}
 
+Producing templates at survey scale requires many processing steps and substantial data movement, the quality of the output varies across the sky, and the templates must integrate cleanly with the existing LSSTCam template workflow in PP. The campaign therefore proceeds in discrete stages, so that templates are deployed for regions where they are ready, while later regions are still being processed or validated. The regular-processing deployment described here is distinct from the use of DECam templates for ToO analyses. It covers the templates used by PP for real-time alert production, with the expectation that deployment proceeds chunk by chunk as each chunk is processed and vetted.
 
+Chunks are processed with a priority assigned based on field availability. For this reason, we initiated the processing campaign with templates within the DELVE footprint along an RA$=315^\circ$. This region was given priority given the original start date of LVK IR1, which was mid-November 2026\footnote{Note: The announced start date of LVK IR1 as of \today is \href{https://observing.docs.ligo.org/plan/#ligo-virgo-and-kagra-observing-run-plans}{mid-January 2027}}, and the fields available to Rubin at that time. For this reason, we define chunk 0 as the chunk centered at RA$=315^\circ$, DEC$=+15^\circ$, shown in Figure~\ref{fig:chunk_schem}.
 
-\begin{figure}
+\begin{figure}[b!]
      \centering
      \includegraphics[width=\linewidth]{figures/chunk_schematic.png}
      \caption{A schematic of the chunks across the sky, illustrating the staging of template production and deployment.}
      \label{fig:chunk_schem}
- \end{figure} 
+ \end{figure}
+
+\subsection{Transition to LSSTCam templates}
+
+DECam templates are a stopgap, so the deployment plan includes their eventual replacement. As LSSTCam accumulates enough images in a tract and band, a decision is needed on when that tract and band switches from a DECam template to an LSSTCam template. Because only one style of template exists in the official chain for a given tract and band, the switch is a curation step rather than a runtime choice. \cite{RTN-133} quantifies how the benefit of DECam templates depends on the open choices: the number of visits per LSSTCam template, the latency of template builds, the image-quality cuts on the LSSTCam visits, and the time at which a tract switches from DECam to LSSTCam. The metadata recorded during coaddition is intended to allow a balanced mixture of DECam and LSSTCam templates as this transition progresses.
+
+\subsection{Data retention and archiving}
+\label{sec:archiving}
+
+We archive \texttt{template\_coadd}, \texttt{preliminary\_visit\_image}, and \texttt{preliminary\_visit\_summary} datasets to tape at NERSC for each chunk, in the event of re-processing or data reuse for other scientific applications.
+
+\subsection{Current status}
+
+As of \today, chunk~0 (about 500\,deg$^2$) has been produced at NERSC, transferred to the USDF, vetted, re-ingested under the PP-required dataset type, and chained into the curated collection, with tracts and bands overlapping existing LSSTCam coverage removed. The remaining steps for chunk~0 are the transfer to \texttt{embargo}, which requires adjusting file ownership so that the PP service account can create the links, and configuring PP to use the new collection. Processing of other chunks is underway.
